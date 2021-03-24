@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "helm-guestbook.fullname" . }}-redis-master
+  labels:
+    app: {{ template "helm-guestbook.fullname" . }}-redis-master
+    tier: backend
+    role: master
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: {{ template "helm-guestbook.fullname" . }}-redis-master
+    tier: backend
+    role: master
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "helm-guestbook.fullname" . }}-redis-master
+  labels:
+    app: {{ template "helm-guestbook.fullname" . }}-redis-master
+    role: master
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "helm-guestbook.fullname" . }}-redis-master
+      role: master
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: {{ template "helm-guestbook.fullname" . }}-redis-master
+        tier: backend
+        role: master
+    spec:
+      containers:
+      - name: master
+        image: redis
+        ports:
+        - containerPort: 6379
