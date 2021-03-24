@@ -1,5 +1,4 @@
 production:
-	echo $@
 	# @argocd app create $@ \
     # --dest-namespace argocd \
     # --dest-server https://kubernetes.default.svc \
@@ -15,7 +14,6 @@ production:
 	--config-management-plugin helmfile
 
 pre-production:
-	echo $@
 	# @argocd app create $@ \
     # --dest-namespace argocd \
     # --dest-server https://kubernetes.default.svc \
@@ -64,14 +62,17 @@ init: init-argocd
 deinit: delete deinit-argocd
 
 init-argocd:
-	@helm repo add argo https://argoproj.github.io/argo-helm
-	@kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-	@helm install argocd --namespace argocd argo/argo-cd -f argocd-init/values.yaml --wait
+	@kubectl create namespace argocd
+	@helm install argocd --namespace argocd argo-cd -f argocd-init/values.yaml
 	@echo "Default argocd admin password, be sure to change it! '$$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)'"
 
 deinit-argocd:
 	@helm uninstall argocd --namespace argocd
 	@kubectl delete namespace argocd
+
+reargo:
+	helm uninstall argocd --namespace argocd
+	helm install argocd --namespace argocd argo-cd -f argocd-init/values.yaml
 
 watch:
 	@watch "kubectl get pods -A --sort-by=status.startTime | awk 'NR<2{print \$$0;next}{print \$$0| \"tail -r\"}'"

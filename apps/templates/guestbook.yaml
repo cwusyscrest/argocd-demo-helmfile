@@ -14,14 +14,19 @@ spec:
     path: {{ .Values.spec.source.path }}
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
-    helm:
-      # Release name override (defaults to application name)
-      releaseName: guestbook-{{ .Values.environment }}
+    plugin:
+      env:
+      - name: KUBE_VERSION
+        value: "1.19"
+      name: helmfile
+    # helm:
+    #   # Release name override (defaults to application name)
+    #   releaseName: guestbook-{{ .Values.environment }}
 
-      # Helm values files for overriding values in the helm chart
-      # The path is relative to the spec.source.path directory defined above
-      valueFiles:
-        - values-{{ .Values.environment }}.yaml
+    #   # Helm values files for overriding values in the helm chart
+    #   # The path is relative to the spec.source.path directory defined above
+    #   valueFiles:
+    #     - values-{{ .Values.environment }}.yaml
 
   # Sync policy
   syncPolicy:
