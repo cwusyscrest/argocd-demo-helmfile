@@ -1,0 +1,22 @@
+repositories:
+- name: incubator
+  url: https://charts.helm.sh/incubator
+  
+releases:
+  - name: demo-chingan
+    namespace: argocd
+    chart: ../charts/guestbook
+    version: 0.1.0
+  - name: dummy-secret
+    namespace: default
+    chart: incubator/raw
+    values:
+    - resources:
+      - apiVersion: v1
+        stringData:
+          mysecret: "this a secret"
+        kind: Secret
+        metadata:
+          name: {{ .Values.secret.name | default "my-secret" }}
+          namespace: default
+        type: Opaque
