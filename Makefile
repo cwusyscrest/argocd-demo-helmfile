@@ -1,35 +1,18 @@
 production:
-	# @argocd app create $@ \
-    # --dest-namespace argocd \
-    # --dest-server https://kubernetes.default.svc \
-    # --repo https://github.com/syscrest/argocd-demo.git \
-    # --path apps \
-    # --helm-set environment=$@
-
 	@argocd app create $@ \
-	--dest-namespace argocd \
-	--dest-server https://kubernetes.default.svc \
-	--repo https://github.com/syscrest/argocd-demo-helmfile.git
-	--path apps \  
-	--config-management-plugin helmfile
+    --dest-namespace argocd \
+    --dest-server https://kubernetes.default.svc \
+    --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
+    --path apps \
+    --helm-set environment=$@
 
 pre-production:
-	# @argocd app create $@ \
-    # --dest-namespace argocd \
-    # --dest-server https://kubernetes.default.svc \
-    # --repo https://github.com/syscrest/argocd-demo.git \
-    # --path apps \
-    # --helm-set environment=$@
-
-
 	@argocd app create $@ \
-	--dest-namespace argocd \
-	--dest-server https://kubernetes.default.svc \
-	--repo https://github.com/syscrest/argocd-demo-helmfile.git
-	--path apps \  
-	--helm-set environment
-	--config-management-plugin helmfile
-
+    --dest-namespace argocd \
+    --dest-server https://kubernetes.default.svc \
+    --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
+    --path apps \
+    --helm-set environment=$@
 
 sync-pre-production:
 	@argocd app sync pre-production
@@ -62,17 +45,14 @@ init: init-argocd
 deinit: delete deinit-argocd
 
 init-argocd:
+	@helm repo add argo https://argoproj.github.io/argo-helm
 	@kubectl create namespace argocd
-	@helm install argocd --namespace argocd argo-cd -f argocd-init/values.yaml
+	@helm install argocd --namespace argocd argo/argo-cd -f argocd-init/values.yaml
 	@echo "Default argocd admin password, be sure to change it! '$$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)'"
 
 deinit-argocd:
 	@helm uninstall argocd --namespace argocd
 	@kubectl delete namespace argocd
-
-reargo:
-	helm uninstall argocd --namespace argocd
-	helm install argocd --namespace argocd argo-cd -f argocd-init/values.yaml
 
 watch:
 	@watch "kubectl get pods -A --sort-by=status.startTime | awk 'NR<2{print \$$0;next}{print \$$0| \"tail -r\"}'"

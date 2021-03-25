@@ -2,8 +2,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    path: ./
-    repoURL: https://github.com/syscrest/argocd-demo-helmfile
+    path: charts/guestbook
+    repoURL: https://github.com/cwusyscrest/argocd-demo-helmfile
     targetRevision: HEAD
 
 environment: dev
