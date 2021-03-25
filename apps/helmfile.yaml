@@ -17,7 +17,6 @@ releases:
           mysecret: "this a secret"
         kind: Secret
         metadata:
-          name: my-secret
+          name: {{ .Values.secret.name | default "my-secret" }}
           namespace: default
         type: Opaque
-        
