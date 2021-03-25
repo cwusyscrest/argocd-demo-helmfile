@@ -6,32 +6,32 @@ production:
     --path apps \
 	--config-management-plugin helmfile
 
-pre-production:
-	@argocd app create $@ \
-    --dest-namespace argocd \
-    --dest-server https://kubernetes.default.svc \
-    --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
-    --path apps \
-	--config-management-plugin helmfile
+# pre-production:
+# 	@argocd app create $@ \
+#     --dest-namespace argocd \
+#     --dest-server https://kubernetes.default.svc \
+#     --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
+#     --path apps \
+# 	--config-management-plugin helmfile
 
-sync-pre-production:
-	@argocd app sync pre-production
-	@argocd app sync -l argocd.argoproj.io/instance=pre-production
+# sync-pre-production:
+# 	@argocd app sync pre-production
+# 	@argocd app sync -l argocd.argoproj.io/instance=pre-production
 
 sync-production:
 	@argocd app sync production
 	@argocd app sync -l argocd.argoproj.io/instance=production
 
-deploy: pre-production production
-sync: sync-pre-production sync-production
+deploy: production
+sync: sync-production
 
-delete-pre-production:
-	@argocd app delete pre-production
+# delete-pre-production:
+# 	@argocd app delete pre-production
 
 delete-production:
 	@argocd app delete production
 
-delete: delete-pre-production delete-production
+delete: delete-production
 
 .PHONY: production sync-production \
 	delete-pre-production delete-production \
