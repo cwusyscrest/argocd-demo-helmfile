@@ -1,4 +1,4 @@
-test:
+production:
 	@argocd app create $@ \
     --dest-namespace argocd \
     --dest-server https://kubernetes.default.svc \
