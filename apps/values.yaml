@@ -3,7 +3,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ./
-    repoURL: https://github.com/cwusyscrest/argocd-demo
+    repoURL: https://github.com/cwusyscrest/argocd-demo-helmfile
     targetRevision: HEAD
 
 environment: dev
