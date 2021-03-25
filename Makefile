@@ -4,7 +4,8 @@ production:
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
     --path apps \
-    --helm-set environment=$@
+	--helm-set environment=$@
+	--config-management-plugin helmfile
 
 pre-production:
 	@argocd app create $@ \
@@ -12,7 +13,8 @@ pre-production:
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
     --path apps \
-    --helm-set environment=$@
+	--helm-set environment=$@
+	--config-management-plugin helmfile
 
 sync-pre-production:
 	@argocd app sync pre-production
@@ -56,3 +58,8 @@ deinit-argocd:
 
 watch:
 	@watch "kubectl get pods -A --sort-by=status.startTime | awk 'NR<2{print \$$0;next}{print \$$0| \"tail -r\"}'"
+
+redeploy-argo:
+	helm uninstall argocd --namespace argocd
+	helm install argocd --namespace argocd argo-cd-local -f argocd-init/values.yaml
+ 
