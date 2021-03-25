@@ -4,7 +4,6 @@ production:
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
     --path apps \
-	--helm-set environment=$@
 	--config-management-plugin helmfile
 
 pre-production:
@@ -13,7 +12,6 @@ pre-production:
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/cwusyscrest/argocd-demo-helmfile.git \
     --path apps \
-	--helm-set environment=$@
 	--config-management-plugin helmfile
 
 sync-pre-production:

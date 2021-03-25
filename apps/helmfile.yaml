@@ -1,5 +1,5 @@
 releases:
   - name: test
     namespace: argocd
-    chart: ./charts/guestbook
+    chart: ../charts/guestbook
     version: 0.1.0
