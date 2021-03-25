@@ -1,10 +1,10 @@
 production:
 	@argocd app create $@ \
+	--config-management-plugin helmfile \
     --dest-namespace argocd \
     --dest-server https://kubernetes.default.svc \
     --repo https://github.com/syscrest/argocd-demo-helmfile.git \
     --path apps \
-	--config-management-plugin helmfile
 
 pre-production:
 	@argocd app create $@ \
