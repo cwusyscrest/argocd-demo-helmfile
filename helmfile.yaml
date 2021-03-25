@@ -3,9 +3,9 @@ repositories:
   url: https://charts.helm.sh/incubator
   
 releases:
-  - name: demo-chingan
+  - name: test
     namespace: argocd
-    chart: ../charts/guestbook
+    chart: ./charts/guestbook
     version: 0.1.0
   - name: dummy-secret
     namespace: default
