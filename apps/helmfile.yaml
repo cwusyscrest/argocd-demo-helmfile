@@ -1,5 +1,9 @@
+repositories:
+- name: incubator
+  url: https://charts.helm.sh/incubator
+  
 releases:
-  - name: test
+  - name: demo-chingan
     namespace: argocd
     chart: ../charts/guestbook
     version: 0.1.0

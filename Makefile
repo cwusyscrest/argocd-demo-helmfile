@@ -1,4 +1,4 @@
-production:
+test:
 	@argocd app create $@ \
     --dest-namespace argocd \
     --dest-server https://kubernetes.default.svc \
@@ -45,9 +45,8 @@ init: init-argocd
 deinit: delete deinit-argocd
 
 init-argocd:
-	@helm repo add argo https://argoproj.github.io/argo-helm
 	@kubectl create namespace argocd
-	@helm install argocd --namespace argocd argo/argo-cd -f argocd-init/values.yaml
+	@helm install argocd --namespace argocd argo-cd-local -f argocd-init/values.yaml
 	@echo "Default argocd admin password, be sure to change it! '$$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)'"
 
 deinit-argocd:
