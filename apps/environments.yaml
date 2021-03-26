@@ -1,0 +1,7 @@
+environments:
+  default:
+    values:
+    - environments/default/values.yaml
+  development:
+    values:
+    - environments/development/values.yaml

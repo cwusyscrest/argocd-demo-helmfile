@@ -1,3 +1,6 @@
+bases:
+- environments.yaml
+---
 repositories:
 - name: incubator
   url: https://charts.helm.sh/incubator
@@ -17,6 +20,6 @@ releases:
           mysecret: "this a secret"
         kind: Secret
         metadata:
-          name: my-secret
+          name: {{ .Values.secret.name }}
           namespace: default
         type: Opaque
