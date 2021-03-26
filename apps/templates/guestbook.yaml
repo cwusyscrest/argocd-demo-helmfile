@@ -18,7 +18,7 @@ spec:
       name: helmfile
       env:
       - name: HELMFILE_GLOBAL_OPTIONS
-        values: --environment development
+        value: --environment development
     helm:
       # Release name override (defaults to application name)
       releaseName: guestbook-{{ .Values.environment }}
